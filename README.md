@@ -5,7 +5,15 @@ A library of miscellaneous functions/classes I use in my projects
 
 - download/upload
 - WithUpdate()
-- check other repos.
+- check other repos (1/25)
+
+## Content
+
+- types
+  - `Cstr<T, ARGS>` : represents a constructor
+- helpers
+  - `IS_INTERACTIVE` : wether we are in CLI or in Browser.
+  - `WithUpdate()` : mixin for updatable classes.
 
 ## See also
 
@@ -17,7 +25,7 @@ A library of miscellaneous functions/classes I use in my projects
   - Computations : write computations/graphs that you can execute in CLI or in the Browser.
   - Signal : a lightweight signal library.
   - LISS : a lightweight WebComponent library
-  - ChartJS++ : create and manipulate Chart.JS graphs with OO API.
+  - [X] ChartJS++ : create and manipulate Chart.JS graphs with OO API.
   - ChartHTML : an HTML wrapper of ChartJS++
   - hljs editable : proof of concept for editable hljs (code widget)
 - Keystroke
