@@ -12,7 +12,7 @@ A library of miscellaneous functions/classes I use in my projects
 - types
   - `Cstr<T, ARGS>` : represents a constructor
 - helpers
-  - `IS_INTERACTIVE` : wether we are in CLI or in Browser.
+  - `IS_INTERACTIVE` : whether we are in CLI or in Browser.
   - `WithUpdate()` : mixin for updatable classes.
 
 ## See also
