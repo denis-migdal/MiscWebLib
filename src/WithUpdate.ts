@@ -132,6 +132,7 @@ type WithUpdateOpts = {
     selfAsTarget: boolean,
     inScreen    : boolean
 }
+
 export default function WithUpdate<T extends Cstr = typeof Object>(
     klass    : T = Object as unknown as T,
     {
