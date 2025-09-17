@@ -41,6 +41,7 @@ A library of miscellaneous functions/classes I use in my projects
   - Keystroke
   - Migdal
 - Misc
+  - DrawIO-UML-Shape-Libraries : UML Shape libraries for DrawIO
   - Linux-VM-installer : automatically create & install a Linux VM.
   - VSHS : py/ts REST Web server
   - download-overleaf : download your Overleaf git repositories
