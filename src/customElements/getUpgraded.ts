@@ -1,4 +1,4 @@
-export default async function getUpgraded<T extends HTMLElement>(e: Element): T {
+export default async function getUpgraded<T extends HTMLElement>(e: Element): Promise<T> {
     
     if( e.ownerDocument !== document )
         document.adoptNode(e);
