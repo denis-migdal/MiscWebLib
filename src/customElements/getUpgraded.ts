@@ -1,4 +1,4 @@
-export default async function getUpgraded<T extends HTMLElement>(e: Element) {
+export default async function getUpgraded<T extends HTMLElement>(e: Element): T {
     
     if( e.ownerDocument !== document )
         document.adoptNode(e);
@@ -7,5 +7,5 @@ export default async function getUpgraded<T extends HTMLElement>(e: Element) {
         await customElements.whenDefined(e.localName);
     customElements.upgrade(e);
 
-    return e;
+    return e as any;
 }
