@@ -1,10 +1,10 @@
 # MiscWebLib
-A library of miscellaneous functions/classes I use in my projects
+
+A library of miscellaneous agnostic functions/classes I use in my projects.
 
 ## TODO
 
 - download/upload
-- WithUpdate()
 - check other repos (1/25)
 
 ## Content
