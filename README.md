@@ -23,6 +23,7 @@ A library of miscellaneous agnostic functions/classes I use in my projects.
   - WebSlides : create Web presentation.
 - Interactions & graphs
   - Computations : write computations/graphs that you can execute in CLI or in the Browser.
+  - Layout : a lightweight library to build dynamic layouts.
   - Signal : a lightweight signal library.
   - LISS : a lightweight WebComponent library
   - [X] ChartJS++ : create and manipulate Chart.JS graphs with OO API.
