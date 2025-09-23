@@ -146,7 +146,7 @@ export default function WithUpdate<T extends Cstr = typeof Object>(
 
     return class Update extends klass {
 
-        #controler = new Controler!(this as any);
+        #controler = new Controler!(this);
 
         constructor(...args: any[]) {
             super(...args);
