@@ -52,11 +52,11 @@ export default class EventHook implements REvent, WEvent {
             this.callbacks[i]();
     }
 
-    listen(callback: () => void): void {
+    addListener(callback: () => void): void {
         this.callbacks.push(callback);
     }
 
-    unlisten(callback: () => void): void {
+    removeListener(callback: () => void): void {
 
         const idx = this.callbacks.indexOf(callback);
         if( idx === -1)

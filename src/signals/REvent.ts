@@ -1,4 +1,4 @@
 export default interface REvent {
-    listen  (callback: () => void): void;
-    unlisten(callback: () => void): void;
+    addListener   (callback: () => void): void;
+    removeListener(callback: () => void): void;
 }
