@@ -3,18 +3,17 @@ import WEvent from "./WEvent";
 
 const NOOP = () => {}
 
-export function createEventHooks<T extends string>(...names: T[])
-                                                        : Record<T, EventHook> {
+export function createHooks<T extends string>(...names: T[]) : Record<T, Hook> {
 
-    const result: Record<string, EventHook> = {};
+    const result: Record<string, Hook> = {};
 
     for(let i = 0; i < names.length; ++i)
-        result[names[i]] = new EventHook();
+        result[names[i]] = new Hook();
 
     return result;
 }
 
-export function ROEventHooks<T extends Record<string, EventHook>>(a: T)
+export function ROHooks<T extends Record<string, Hook>>(a: T)
                         : { [K in keyof T]: REvent }
 {
     return a;
@@ -22,7 +21,7 @@ export function ROEventHooks<T extends Record<string, EventHook>>(a: T)
 
 // Trigger re-entry = loop = dangerous.
 // We need protections against suppressions during trigger.
-export default class EventHook implements REvent, WEvent {
+export default class Hook implements REvent, WEvent {
 
     protected callbacks = new Array<() =>void>();
     private removalPending = false;
