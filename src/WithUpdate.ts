@@ -6,14 +6,14 @@ type Updatable = {
     onInit  : () => void;
 };
 
-interface UpdateControler {
+interface UpdateController {
     setVisibilityTarget(visibility_target: any): void
     update(): void
     requestUpdate(): Promise<void>
 }
 
 
-class CLIUpdateControler implements UpdateControler {
+class CLIUpdateController implements UpdateController {
 
     readonly update_target: Updatable;
 
@@ -37,11 +37,11 @@ class CLIUpdateControler implements UpdateControler {
     setVisibilityTarget(visibility_target: never) {}
 }
 
-let DefaultUpdateControler: Cstr<UpdateControler> = CLIUpdateControler;
+let DefaultUpdateController: Cstr<UpdateController> = CLIUpdateController;
 
 if( IS_INTERACTIVE ) { // prevents errors in CLI
 
-    class BrowserUpdateControler implements UpdateControler {
+    class BrowserUpdateController implements UpdateController {
 
         #isVisible = false;
         #isPending = false;
@@ -53,8 +53,8 @@ if( IS_INTERACTIVE ) { // prevents errors in CLI
         }
 
         setVisibilityTarget(visibility_target: any) {
-            visibility_target[BrowserUpdateControler.UCSym] = this;
-            BrowserUpdateControler.Observer.observe(visibility_target);
+            visibility_target[BrowserUpdateController.UCSym] = this;
+            BrowserUpdateController.Observer.observe(visibility_target);
         }
 
         #isInit = false;
@@ -111,24 +111,24 @@ if( IS_INTERACTIVE ) { // prevents errors in CLI
                 this.#requestID = requestAnimationFrame( this.#afr_callback );
         }
 
-        static UCSym = Symbol('UpdateControler');
+        static UCSym = Symbol('UpdateController');
 
         static Observer = new IntersectionObserver(
                 (entries: IntersectionObserverEntry[]) => {
 
             for(let i = 0; i < entries.length; ++i) {
-                const ctrler: BrowserUpdateControler
-                                = (entries[i].target as any)[BrowserUpdateControler.UCSym];
+                const ctrler: BrowserUpdateController
+                                = (entries[i].target as any)[BrowserUpdateController.UCSym];
                 ctrler.onVisibilityChange( entries[i].isIntersecting );
             }
         }, {root: document.documentElement}); //TODO options to remove it...
     }
 
-    DefaultUpdateControler = BrowserUpdateControler;
+    DefaultUpdateController = BrowserUpdateController;
 }
 
 type WithUpdateOpts = {
-    Controler   : null|Cstr<UpdateControler>,
+    Controller   : null|Cstr<UpdateController>,
     selfAsTarget: boolean,
     inScreen    : boolean
 }
@@ -136,17 +136,17 @@ type WithUpdateOpts = {
 export default function WithUpdate<T extends Cstr = typeof Object>(
     klass    : T = Object as unknown as T,
     {
-        Controler    = null,
+        Controller    = null,
         selfAsTarget = true,
         inScreen     = true, // use false for elements of "unknown" size.
     }: Partial<WithUpdateOpts> = {}) {
 
-    if( Controler === null)
-        Controler = DefaultUpdateControler;
+    if( Controller === null)
+        Controller = DefaultUpdateController;
 
     return class Update extends klass {
 
-        #controler = new Controler!(this);
+        #controller = new Controller!(this);
 
         constructor(...args: any[]) {
             super(...args);
@@ -156,11 +156,11 @@ export default function WithUpdate<T extends Cstr = typeof Object>(
         }
 
         protected setVisibilityTarget(target: any) {
-            this.#controler.setVisibilityTarget(target);
+            this.#controller.setVisibilityTarget(target);
         }
 
         requestUpdate() {
-            return this.#controler.requestUpdate();
+            return this.#controller.requestUpdate();
         }
 
         #isInit: boolean = false;
@@ -170,7 +170,7 @@ export default function WithUpdate<T extends Cstr = typeof Object>(
         }
         protected onInit() {}
 
-        update() { this.#controler.update(); }
+        update() { this.#controller.update(); }
         protected onUpdate() {}
     }
 }

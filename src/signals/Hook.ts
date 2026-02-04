@@ -3,7 +3,7 @@ import WEvent from "./WEvent";
 
 const NOOP = () => {}
 
-export function createHooks<T extends string>(...names: T[]) : Record<T, Hook> {
+export function createHooks<T extends string>(...names: T[]) : Record<T, REvent> {
 
     const result: Record<string, Hook> = {};
 
@@ -13,10 +13,10 @@ export function createHooks<T extends string>(...names: T[]) : Record<T, Hook> {
     return result;
 }
 
-export function ROHooks<T extends Record<string, Hook>>(a: T)
-                        : { [K in keyof T]: REvent }
-{
-    return a;
+export function triggerHook<K extends string>(target: { hooks: Record<K, REvent> },
+                                              name: K) {
+
+    (target.hooks[name] as Hook).trigger();
 }
 
 // Trigger re-entry = loop = dangerous.
