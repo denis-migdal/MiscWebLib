@@ -7,7 +7,7 @@
         <mxCell id="Drk534LXskfvyxKd6B1O-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;b&gt;MWL&lt;/b&gt;&lt;br&gt;&lt;i style=&quot;&quot;&gt;misc&lt;/i&gt;" vertex="1">
           <mxGeometry height="50" width="90" x="420" y="120" as="geometry" />
         </mxCell>
-        <mxCell id="Drk534LXskfvyxKd6B1O-2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;b&gt;LISS&lt;/b&gt;&lt;br&gt;&lt;i style=&quot;&quot;&gt;WebComponents&lt;/i&gt;" vertex="1">
+        <mxCell id="Drk534LXskfvyxKd6B1O-2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;b&gt;&lt;a href=&quot;https://github.com/denis-migdal/LISS&quot;&gt;LISS&lt;/a&gt;&lt;/b&gt;&lt;br&gt;&lt;i style=&quot;&quot;&gt;WebComponents&lt;/i&gt;" vertex="1">
           <mxGeometry height="50" width="110" x="170" y="220" as="geometry" />
         </mxCell>
         <mxCell id="Drk534LXskfvyxKd6B1O-3" edge="1" parent="1" source="Drk534LXskfvyxKd6B1O-2" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="Drk534LXskfvyxKd6B1O-1" value="">
