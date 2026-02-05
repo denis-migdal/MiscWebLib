@@ -1,6 +1,12 @@
-# MiscWebLib
+# MWL : Miscellaneous Web Library
 
 A library of miscellaneous agnostic functions/classes I use in my projects.
+
+
+<center>
+  <img src="./doc/deps.svg">
+</center>
+
 
 ## TODO
 
