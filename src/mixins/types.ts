@@ -10,6 +10,12 @@ export type MixinArgs<T extends Mixin> = T extends Mixin<any, any, infer Args>
                                             ? Args
                                             : never
 
+export type OnlyFirstParam<
+                            T extends (arg: any, ...args: any[]) => any
+                        > = T extends (arg: infer A, ...args: any[]) => infer R
+                                    ? (arg: A) => R
+                                    : never;
+
 export type MixinReturn<T extends Mixin> = T extends Mixin<any, infer Ret, any>
                                             ? Ret
                                             : never
