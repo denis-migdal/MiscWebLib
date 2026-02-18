@@ -3,10 +3,10 @@ import { Properties, trigger } from "./Properties";
 
 export type Output<T extends {OutputProperties: Cstr}> = Readonly<InstanceType<T["OutputProperties"]>>
 
-export function WithOutput<B extends Cstr>(base: B) {
+export function WithOutput<B extends Cstr, T extends Record<string, any> = {}>(base: B, props: T = {} as T) {
     return class WithOutputMixed extends base {
 
-        static readonly OutputProperties = Properties({});
+        static readonly OutputProperties = Properties(props);
 
         onOutputChange() {}
 
