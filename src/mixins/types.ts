@@ -29,8 +29,3 @@ export type WithMixins<B extends Cstr,
     Cstr<UnionToIntersection<InstanceType<B|MixinReturn<T[K]>>>>
     // static props
   & Omit<UnionToIntersection<B|MixinReturn<T[K]>>, "new">;
-
-
-/* Not used anymore, temporary keeping it during LISS refactor:
-    export type ExtensionsArgs<T extends Extension[], K extends keyof T & number = keyof T & number> = UnionToIntersection<ExtensionArgs<T[K]>>;
-*/

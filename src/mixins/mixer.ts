@@ -9,12 +9,6 @@ type MixBuilder<B   extends Cstr,
                                    & MixBuilder<B, [...Acc, M]>;
 }
 
-export function createExtension<M extends Mixin>(m: M)
-            : (...opts: MixinArgs<M>) => OnlyFirstParam<M> {
-    // @ts-ignore
-    return (...opts: unknown[]) => (target: Cstr) => m(target, ...opts)
-}
-
 export default function Mix<B extends Cstr>(base: B) {
 
     return class Mix extends base {
@@ -26,4 +20,10 @@ export default function Mix<B extends Cstr>(base: B) {
             return mixin(this, ...args);
         }
     }
+}
+
+export function createExtension<M extends Mixin>(m: M)
+            : (...opts: MixinArgs<M>) => OnlyFirstParam<M> {
+    // @ts-ignore
+    return (...opts: unknown[]) => (target: Cstr) => m(target, ...opts)
 }
