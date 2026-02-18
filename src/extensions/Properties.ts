@@ -47,3 +47,7 @@ export function trigger<T extends Object>(target: T, name: string) {
     // @ts-ignore
     return target[method]();
 }
+
+export function setProperty<T extends Readonly<Record<string, any>>, N extends keyof T>(target: T, name: N, value: T[N]) {
+    target[name] = value;
+}

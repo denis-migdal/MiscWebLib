@@ -1,7 +1,7 @@
 import { Cstr } from "../types/Cstr";
 import { Properties, trigger } from "./Properties";
 
-type Output<T extends {OutputProperties: Cstr}> = Readonly<InstanceType<T["OutputProperties"]>>
+export type Output<T extends {OutputProperties: Cstr}> = Readonly<InstanceType<T["OutputProperties"]>>
 
 export function WithOutput<B extends Cstr>(base: B) {
     return class WithOutputMixed extends base {
@@ -15,6 +15,11 @@ export function WithOutput<B extends Cstr>(base: B) {
             ) as Output<typeof WithOutputMixed>;
     }
 }
+
+import {createExtension} from "../mixins/mixer";
+
+const Output = createExtension(WithOutput);
+export default Output;
 
 /*
 class X extends WithOutput(Object) {

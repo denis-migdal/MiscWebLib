@@ -1,7 +1,7 @@
 import { Cstr } from "../types/Cstr";
 import { Properties, trigger } from "./Properties";
 
-type Input<T extends {InputProperties: Cstr}> = InstanceType<T["InputProperties"]>;
+export type Input<T extends {InputProperties: Cstr}> = InstanceType<T["InputProperties"]>;
 
 export function WithInput<B extends Cstr>(base: B) {
     return class WithInputMixed extends base {
@@ -15,6 +15,11 @@ export function WithInput<B extends Cstr>(base: B) {
             ) as Input<typeof WithInputMixed>;
     }
 }
+
+import {createExtension} from "../mixins/mixer";
+
+const Input = createExtension(WithInput);
+export default Input;
 
 /*
 class X extends WithInput(Object) {

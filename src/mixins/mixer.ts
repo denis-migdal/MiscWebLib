@@ -24,6 +24,11 @@ export default function Mix<B extends Cstr>(base: B) {
 
 export function createExtension<M extends Mixin>(m: M)
             : (...opts: MixinArgs<M>) => OnlyFirstParam<M> {
-    // @ts-ignore
-    return (...opts: unknown[]) => (target: Cstr) => m(target, ...opts)
+
+    const name = m.name.slice(4);
+    const fct  = (...opts: unknown[]) => (target: Cstr) => m(target, ...opts);
+
+    Object.defineProperty(fct, "name", {value: name});
+
+    return fct as any;
 }
