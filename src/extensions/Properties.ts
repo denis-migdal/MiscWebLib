@@ -48,15 +48,24 @@ export function trigger<T extends Object>(target: T, name: string) {
     return target[method]();
 }
 
-export function listenChange(target: unknown, callback: () => void) {
-    const t = target as any as {onChange: () => void };
-    const p = t.onChange;
 
-    //TODO: better
-    t.onChange = () => {
-        p();
-        callback();
+const LISTENERS = Symbol();
+
+export function listenChange(target: any, callback: () => void) {
+
+    let l = target[LISTENERS];
+    if( l === undefined ) { // install listeners
+
+        const o = target.onChange;
+        l = target[LISTENERS] = [o];
+        
+        target.onChange = () => {
+            for(let i = 0; i < l.length; ++i)
+                l[i]();
+        }
     }
+
+    l.push(callback);
 }
 
 export function setProperty<T extends Readonly<Record<string, any>>, N extends keyof T>(target: T, name: N, value: T[N]) {
