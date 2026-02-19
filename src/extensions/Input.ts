@@ -21,6 +21,22 @@ import {createExtension} from "../mixins/mixer";
 const Input = createExtension(WithInput);
 export default Input;
 
+// === Register ===
+
+import { Mixin  } from "../mixins/types";
+import { registerExtension} from "./Base";
+
+declare module "./Base" {
+    interface Ext<B   extends Cstr    = Cstr,
+                  Acc extends Mixin[] = []
+                > {
+
+        WithInput<T extends Record<string, any> = {}>(props?: T):
+            NextBuilder<B, Acc, (props: T) => typeof WithInput<B, T>>
+    }
+}
+registerExtension(Input);
+
 /*
 const Z = WithInput(Object, {faa: "43"});
 Z.InputProperties.Descriptors

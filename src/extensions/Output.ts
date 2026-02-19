@@ -21,6 +21,22 @@ import {createExtension} from "../mixins/mixer";
 const Output = createExtension(WithOutput);
 export default Output;
 
+// === Register ===
+
+import { Mixin  } from "../mixins/types";
+import { registerExtension} from "./Base";
+
+declare module "./Base" {
+    interface Ext<B   extends Cstr    = Cstr,
+                  Acc extends Mixin[] = []
+                > {
+
+        WithOutput<T extends Record<string, any> = {}>(props?: T):
+            NextBuilder<B, Acc, (props: T) => typeof WithOutput<B, T>>
+    }
+}
+registerExtension(Output);
+
 /*
 class X extends WithOutput(Object) {
 
