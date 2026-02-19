@@ -1,4 +1,4 @@
-type Listener<T> = (event: Event<T>) => void;
+export type Listener<T> = (event: REvent<T>) => void;
 
 const NOOP = () => {}
 
