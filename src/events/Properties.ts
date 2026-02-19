@@ -18,7 +18,7 @@ export function Properties<T extends Record<string, Property<any>>>(desc: T) {
         
         //TODO: infer type if Descriptor is more complex than {[key]: T}
         protected readonly values: T = desc;
-        readonly events = createEvents(this, "change");
+        readonly events = createEvents(this as any as RProperties<T>, "change");
     }
 
     for(const key in desc) {
