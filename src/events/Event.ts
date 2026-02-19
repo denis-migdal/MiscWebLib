@@ -94,7 +94,7 @@ export function createEvents<T, N extends string>(target: T, ...names: N[]
 
 import "../types/asRW"
 declare module "../types/asRW" {
-    export interface asRW {
+    export default interface asRW {
         <T>(ro: REvent<T>): REvent<T>&WEvent<T>
     }
 }
