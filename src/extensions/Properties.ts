@@ -51,7 +51,7 @@ export function trigger<T extends Object>(target: T, name: string) {
 
 const LISTENERS = Symbol();
 
-export function listenChange(target: any, callback: () => void) {
+export function onChange(target: any, callback: () => void) {
 
     let l = target[LISTENERS];
     if( l === undefined ) { // install listeners
