@@ -1,5 +1,3 @@
-function asRW(a: unknown) {
+export default function asRW(a: unknown) {
     return a;
 }
-
-export default asRW;
