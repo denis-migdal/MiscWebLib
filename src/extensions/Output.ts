@@ -1,5 +1,5 @@
 import { Cstr } from "../types/Cstr";
-import { Properties, trigger } from "./Properties";
+import { Properties } from "../events/Properties";
 
 export type Output<T extends {OutputProperties: Cstr}> = Readonly<InstanceType<T["OutputProperties"]>>
 
@@ -7,12 +7,15 @@ export function WithOutput<B extends Cstr, T extends Record<string, any> = {}>(b
     return class WithOutputMixed extends base {
 
         static readonly OutputProperties = Properties(props);
+        readonly output = new (this.constructor as any).OutputProperties() as Output<typeof WithOutputMixed>;
 
         onOutputChange() {}
 
-        readonly output = new (this.constructor as any).OutputProperties(
-                () => trigger(this, "outputChange")
-            ) as Output<typeof WithOutputMixed>;
+        constructor(...args: any[]) {
+            super(...args);
+
+            this.output.events.change.addListener( () => this.onOutputChange() );
+        }
     }
 }
 

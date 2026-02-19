@@ -1,5 +1,5 @@
 import { Cstr } from "../types/Cstr";
-import { Properties, trigger } from "./Properties";
+import { Properties } from "../events/Properties";
 
 export type Input<T extends {InputProperties: Cstr}> = InstanceType<T["InputProperties"]>;
 
@@ -7,12 +7,15 @@ export function WithInput<B extends Cstr, T extends Record<string, any> = {}>(ba
     return class WithInputMixed extends base {
 
         static readonly InputProperties = Properties(props);
+        readonly input = new (this.constructor as any).InputProperties() as Input<typeof WithInputMixed>;
 
         onInputChange() {}
 
-        readonly input = new (this.constructor as any).InputProperties(
-                () => trigger(this, "inputChange")
-            ) as Input<typeof WithInputMixed>;
+        constructor(...args: any[]) {
+            super(...args);
+
+            this.input.events.change.addListener( () => this.onInputChange() );
+        }
     }
 }
 
