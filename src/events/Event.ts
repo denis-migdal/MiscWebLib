@@ -91,3 +91,8 @@ export function createEvents<T, N extends string>(target: T, ...names: N[]
 
     return result as Record<N, Event<T>>;
 }
+
+import "../types/asRW"
+declare module "../types/asRW" {
+    export default function asRW<T>(ro: REvent<T>): REvent<T>&WEvent<T>
+}
