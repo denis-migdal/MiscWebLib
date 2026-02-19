@@ -17,7 +17,7 @@ export function Properties<T extends Record<string, Property<any>>>(desc: T) {
         static readonly Descriptors = desc;
         
         //TODO: infer type if Descriptor is more complex than {[key]: T}
-        protected readonly values: T = desc;
+        protected readonly values: T = {...desc}; // we need to clone it.
         readonly events = createEvents(this as any as RProperties<T>, "change");
     }
 
