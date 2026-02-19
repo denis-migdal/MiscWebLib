@@ -42,7 +42,7 @@ export function Properties<T extends Record<string, Property<any>>>(desc: T) {
 
 import "../types/asRW"
 declare module "../types/asRW" {
-    export interface TasRW {
+    export interface asRW {
         <T extends Record<string, any>>(ro: RProperties<T>): RProperties<T>&WProperties<T>
     }
 }
