@@ -3,10 +3,10 @@ import { createEvents, REvent } from "./Event";
 
 type Property<T> = T;
 
-type RProperties<T extends Record<string, Property<any>>> = Readonly<T> & {
+export type RProperties<T extends Record<string, Property<any>>> = Readonly<T> & {
     events: {change: REvent<unknown>}
 };
-type WProperties<T extends Record<string, Property<any>>> = T & {
+export type WProperties<T extends Record<string, Property<any>>> = T & {
     events: {change: REvent<unknown>}
 };
 
