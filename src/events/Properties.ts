@@ -23,7 +23,11 @@ export function Properties<T extends Record<string, Property<any>>>(desc: T) {
 
     for(const key in desc) {
         Object.defineProperty(Properties.prototype, key, {
-            set: function (this: Properties, value: any) { 
+            set: function (this: Properties, value: any) {
+
+                // prevents multiple calls.
+                if( value === this.values[key]) return;
+
                 this.values[key] = value;
                 asRW(this.events.change).trigger();
             },
