@@ -2,22 +2,13 @@ Event and signals are required as we *need* a way to notify.
 Still, we need to respect SRP and encapsulation.
 
 TODO: signals
-- re-entry synchrone INTERDITS (= boucle infinie)
 - en dehors listener soit
-    - utiliser une fonction pour une valeur par défaut
     - flush(signal, () => {} ) / flushMany()
     - utiliser un cache dans le listener (last known value)
     - .value => calculer valeur potentiellement intermédiaire.
         => mettre à jour .currentProvider qu'au dernier validate.
-- dirty => outdated
-    - markOutdated() / -> needsRefresh() / invalidate()
-    - refreshWith()
-- listener fallback() [=> détecter l'abs de value ???]
-    - getValue(s, fallback)
-    - hasValue(s)
 - NOVALUE_PROVIDER => NO_VALUE (symbol).
     - .value ne peut pas throw => lui-même provider possible.
-- avoid hasValue() => compute the value...
 
 Event
 =====
@@ -42,15 +33,20 @@ RSignal<T>
 ==========
 
 It needs 2 properties:
-- dirty
-- value: T, throws exception if dirty is true.
+- outdated
+- value: T|NO_VALUE
+
+Value should be NO_VALUE when no value is provided. This is necessary to avoid:
+- throwing exceptions (causes issues when using RSignal as a provider).
+- using a .hasValue flag that'd incite to provide a default value for .value.
+- using a default value (e.g. null) for .value
 
 It needs 2 events:
-- dirty: the current value isn't clean anymore.
+- outdated: the current value isn't clean anymore.
 - change: a new value is available.
 
-The dirty event must be synchronous in order to properly batch merged signals:
-1. The batcher listen the dirty event and become dirty itself.
+The outdated event must be synchronous in order to properly batch merged signals:
+1. The batcher listen the outdated event and become outdated itself.
 2. The batcher wait, e.g. a microtask.
 3. The batcher then wait all signals to be clean, before becoming clean itself.
 
@@ -61,9 +57,10 @@ It needs 1 properties:
 - currentProvider: gives the signal value.
 
 It needs an dirty system (with re-entry):
-- markDirty(): set the state as dirty.
+- needsRefresh(): announce a futur refresh, set the state as outdate.
 - refreshWith(provider: {value: XXX})
 
+- re-entry synchrone INTERDITS (= boucle infinie)
 - provideValue(signal, value) function can create a trivial provider (from a pool ?). This should be external to the signal.
 - cache should be handled by the provider.
 - signal should not know what is the default value/how to reset().
