@@ -33,7 +33,7 @@ Value should be NO_VALUE when no value is provided. This is necessary to avoid:
 - using a .hasValue flag that'd incite to provide a default value for .value.
 - using a default value (e.g. null) for .value
 
-CurrentProvider is used to optimise signals link operations.
+CurrentProvider is used to optimise signals link operations. The provider should be immutable or functional. It shouldn't have its value changed without the signal being notified.
 
 It needs 2 events:
 - outdated: the current value isn't clean anymore.
@@ -51,9 +51,11 @@ We never merge signals, we merge its event to execute an *action* when the signa
 WSignal<T>
 ==========
 
-It needs an dirty system (with guarded transitions):
+It needs an *internal* refresh system (with guarded transitions):
 - needsRefresh(): announce a futur refresh, set the state as outdate.
 - refreshWith(provider: {value: XXX})
+
+Theses methods should be protected, only to be used by links or setValue().
 
 - re-entry synchrone INTERDITS (= boucle infinie)
 - provideValue(signal, value) function can create a trivial provider (from a pool ?). This should be external to the signal.

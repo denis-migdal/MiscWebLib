@@ -1,22 +1,23 @@
+import LockGuard from "../../guards/LockGuard";
+
 export default function createBatcher(scheduler: (callback: () => void) => void) {
 
     return (callback: () => void) => {
 
-        let pending = false;
+        const guard = new LockGuard();
 
         const trigger = () => {
             try {
                 callback();
             } finally {
-                pending = false;
+                guard.leave();
             }
         }
 
         return () => {
 
-            if( pending === true )
+            if( ! guard.enter() )
                 return;
-            pending = true;
 
             scheduler( trigger );
         }
