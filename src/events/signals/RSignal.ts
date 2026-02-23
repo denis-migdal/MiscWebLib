@@ -24,8 +24,10 @@ export default abstract class RSignal<T> {
 
 export function getValue<T, U>(s: RSignal<T>, defaultValue: U) {
     const value = s.value;
+    
     if( value === NO_VALUE )
         return defaultValue;
+    
     return value;
 }
 

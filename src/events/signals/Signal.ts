@@ -1,6 +1,7 @@
 import asRW from "../../types/asRW";
 import { mutable } from "../../types/mutable";
 import NestedGuard from "../guards/NestedGuard";
+import constant from "./providers/constant";
 import RSignal, { NO_VALUE, ValueProvider } from "./RSignal";
 
 export const NO_VALUE_PROVIDER = {
@@ -14,7 +15,7 @@ export default class Signal<T> extends RSignal<T> {
         return this.currentProvider.value;
     }
 
-    readonly guard = new NestedGuard();
+    protected readonly guard = new NestedGuard();
     get outdated() {
         return this.guard.isInside;
     }
@@ -35,4 +36,11 @@ export default class Signal<T> extends RSignal<T> {
         mutable(this).currentProvider = provider;
         asRW(this.events.change).trigger();
     }
+
+    static setValue<T>(s: Signal<T>, value: NoInfer<T>) {
+        s.needsRefresh();
+        s.refreshWith( constant(value) );
+    }
 }
+
+export const setValue = Signal.setValue;
