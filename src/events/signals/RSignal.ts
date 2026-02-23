@@ -1,15 +1,14 @@
 import {createEvents, Listener} from "../Event";
 
-export const NO_VALUE = Symbol("NO VALUE");
 
 export type ValueProvider<T> = {
-    readonly value: T|typeof NO_VALUE
+    readonly value: T
 }
 
 export default abstract class RSignal<T> {
 
     abstract readonly outdated: boolean;
-    abstract readonly value   : T | typeof NO_VALUE ;
+    abstract readonly value   : T;
     abstract readonly currentProvider: ValueProvider<T>;
 
     readonly events = createEvents(this, "change", "outdated");
@@ -20,15 +19,6 @@ export default abstract class RSignal<T> {
     removeListener(listener: Listener<this>) {
         return this.events.change.removeListener(listener);
     }
-}
-
-export function getValue<T, U>(s: RSignal<T>, defaultValue: U) {
-    const value = s.value;
-    
-    if( value === NO_VALUE )
-        return defaultValue;
-    
-    return value;
 }
 
 /*

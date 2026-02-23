@@ -2,15 +2,18 @@ import asRW from "../../types/asRW";
 import { mutable } from "../../types/mutable";
 import NestedGuard from "../guards/NestedGuard";
 import constant from "./providers/constant";
-import RSignal, { NO_VALUE, ValueProvider } from "./RSignal";
-
-export const NO_VALUE_PROVIDER = {
-    value: NO_VALUE
-} as const
+import RSignal, { ValueProvider } from "./RSignal";
 
 export default class Signal<T> extends RSignal<T> {
 
-    override readonly currentProvider: ValueProvider<T> = NO_VALUE_PROVIDER;
+    constructor(initialProvider: ValueProvider<T>) {
+        super();
+
+        this.currentProvider = initialProvider;
+    }
+
+    override readonly currentProvider: ValueProvider<T>;
+
     override get value() {
         return this.currentProvider.value;
     }

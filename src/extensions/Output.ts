@@ -1,21 +1,22 @@
 import { Cstr } from "../types/Cstr";
-import { Properties } from "../events/Properties";
+import { createRequiredSignal } from "../events/signals/createSignal";
 
-export type Output<T extends {OutputProperties: Cstr}> = Readonly<InstanceType<T["OutputProperties"]>>
+export type Output<T extends {OutputInitialValue: Record<string, any>}>
+                                            = Readonly<T["OutputInitialValue"]>;
 
-export function WithOutput<B extends Cstr, T extends Record<string, any> = {}>(base: B, props: T = {} as T) {
+export function WithOutput<B extends Cstr, T extends Record<string, any> = {}>(base: B, initialValue: T = {} as T) {
     return class WithOutputMixed extends base {
 
-        static readonly OutputProperties = Properties(props);
-        readonly output = new (this.constructor as any).OutputProperties() as Output<typeof WithOutputMixed>;
+        readonly outputSignal = createRequiredSignal<this["output"]>(
+                                    (this.constructor as any).OutputInitialValue
+                                );
 
-        onOutputChange() {}
-
-        constructor(...args: any[]) {
-            super(...args);
-
-            this.output.events.change.addListener( () => this.onOutputChange() );
+        // need to redeclare it if OutputInitialValue redefined.
+        get output(): Output<typeof WithOutputMixed> {
+            return this.outputSignal.value;
         }
+
+        static readonly OutputInitialValue = initialValue;
     }
 }
 
