@@ -1,4 +1,5 @@
 import RSignal from "../RSignal";
+import Signal from "../Signal";
 import constant from "./constant";
 
 export const NO_VALUE = null; //Symbol("NO VALUE");

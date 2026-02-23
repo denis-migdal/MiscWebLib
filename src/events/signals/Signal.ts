@@ -2,6 +2,7 @@ import asRW from "../../types/asRW";
 import { mutable } from "../../types/mutable";
 import NestedGuard from "../guards/NestedGuard";
 import constant from "./providers/constant";
+import NO_VALUE_PROVIDER, { NO_VALUE } from "./providers/no_value";
 import RSignal, { ValueProvider } from "./RSignal";
 
 export default class Signal<T> extends RSignal<T> {
@@ -52,4 +53,9 @@ export default class Signal<T> extends RSignal<T> {
 export function setValue<T>(s: Signal<T>, value: NoInfer<T>) {
     Signal.needsRefresh(s);
     Signal.refreshWith(s, constant(value) );
+}
+
+export function clearValue<T>(s: Signal<T|typeof NO_VALUE>) {
+    Signal.needsRefresh(s);
+    Signal.refreshWith(s, NO_VALUE_PROVIDER );
 }
