@@ -1,10 +1,9 @@
 import RSignal from "../RSignal";
+import constant from "./constant";
 
 export const NO_VALUE = null; //Symbol("NO VALUE");
 
-const NO_VALUE_PROVIDER = {
-    value: NO_VALUE
-} as const;
+const NO_VALUE_PROVIDER = constant(NO_VALUE);
 
 export default NO_VALUE_PROVIDER;
 
