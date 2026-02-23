@@ -1,6 +1,6 @@
 import RSignal from "../RSignal";
 
-export const NO_VALUE = Symbol("NO VALUE");
+export const NO_VALUE = null; //Symbol("NO VALUE");
 
 const NO_VALUE_PROVIDER = {
     value: NO_VALUE
