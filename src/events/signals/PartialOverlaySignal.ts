@@ -1,4 +1,5 @@
 import asRW from "../../types/asRW";
+import LockGuard from "../guards/LockGuard";
 import RSignal from "./RSignal";
 
 export default class PartialOverlaySignal<T extends Record<string, any>> extends RSignal<Readonly<Partial<T>>> {
@@ -15,23 +16,36 @@ export default class PartialOverlaySignal<T extends Record<string, any>> extends
         return this;
     }
 
+    protected readonly guard = new LockGuard();
     protected internalValue: Partial<Readonly<T>> = {};
 
     get value() {
         return this.internalValue;
     }
     set value(value: Partial<Readonly<T>>) {
+
         this.internalValue = value;
 
-        //TODO trigger no debounce... ~> if debounce en cours ?
-        // => guard ???
-        //asRW(this.events.outdated).trigger();
+        this.startChange();
+        this.endChange();
+    }
+
+    protected startChange() {
+        
+        if( ! this.guard.enter() ) return false;
+
         asRW(this.events.beforeChange).trigger();
+        return true;
+    }
+    protected endChange() {
+        
+        if( ! this.guard.leave() ) return;
+
         asRW(this.events.afterChange).trigger();
     }
 
     get isChanging() {
-        return false; //TODO: guard...
+        return this.guard.isInside;
     }
 
     get<K extends keyof T>(name: K): T[K] {
@@ -39,7 +53,12 @@ export default class PartialOverlaySignal<T extends Record<string, any>> extends
     }
 
     set<K extends keyof T>(name: K, value: T[K]) {
+
         this.internalValue[name] = value;
-        //TODO: guard + debounce.
+
+        if( ! this.startChange() ) return;
+
+        // no needs for batchers.microtask: already behind a guard...
+        queueMicrotask( () => this.endChange() );
     }
 }

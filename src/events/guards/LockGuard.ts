@@ -15,6 +15,10 @@ export default class LockGuard implements Guard {
     }
 
     leave() {
+        
+        if( ! this.isInside )
+            return false;
+
         mutable(this).isInside = false;
         return true; 
     }
