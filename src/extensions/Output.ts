@@ -1,5 +1,5 @@
 import { Cstr } from "../types/Cstr";
-import { createRequiredSignal } from "../events/signals/createSignal";
+import { createSignal } from "../events/signals/createSignal";
 
 export type Output<T extends {OutputInitialValue: Record<string, any>}>
                                             = Readonly<T["OutputInitialValue"]>;
@@ -7,7 +7,7 @@ export type Output<T extends {OutputInitialValue: Record<string, any>}>
 export function WithOutput<B extends Cstr, T extends Record<string, any> = {}>(base: B, initialValue: T = {} as T) {
     return class WithOutputMixed extends base {
 
-        readonly outputSignal = createRequiredSignal<this["output"]>(
+        readonly outputSignal = createSignal<this["output"]>(
                                     (this.constructor as any).OutputInitialValue
                                 );
 

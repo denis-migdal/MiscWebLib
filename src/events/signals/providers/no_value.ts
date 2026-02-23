@@ -4,7 +4,6 @@ import constant from "./constant";
 export const NO_VALUE = null; //Symbol("NO VALUE");
 
 const NO_VALUE_PROVIDER = constant(NO_VALUE);
-
 export default NO_VALUE_PROVIDER;
 
 export function getValue<T, U>(s: RSignal<T|typeof NO_VALUE>, defaultValue: U) {

@@ -3,7 +3,7 @@ import NO_VALUE_PROVIDER, { NO_VALUE } from "./providers/no_value";
 import { ValueProvider } from "./RSignal";
 import Signal from "./Signal";
 
-export function createSignal<T>(value: T|typeof NO_VALUE = NO_VALUE) {
+export function createNullableSignal<T>(value: T|typeof NO_VALUE = NO_VALUE) {
 
     let provider: ValueProvider<T|typeof NO_VALUE>;
     if( value === NO_VALUE )
@@ -15,6 +15,6 @@ export function createSignal<T>(value: T|typeof NO_VALUE = NO_VALUE) {
 }
 
 
-export function createRequiredSignal<T>(value: T) {
+export function createSignal<T>(value: T) {
     return new Signal<T>( constant(value) );
 }
