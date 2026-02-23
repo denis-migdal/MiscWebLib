@@ -1,10 +1,6 @@
 import asRW from "../../types/asRW";
 import { mutable } from "../../types/mutable";
-import RSignal, { NO_VALUE } from "./RSignal";
-
-export type ValueProvider<T> = {
-    readonly value: T|typeof NO_VALUE
-}
+import RSignal, { NO_VALUE, ValueProvider } from "./RSignal";
 
 export const NO_VALUE_PROVIDER = {
     value: NO_VALUE
@@ -12,8 +8,8 @@ export const NO_VALUE_PROVIDER = {
 
 export default class Signal<T> extends RSignal<T> {
 
-    readonly currentProvider: ValueProvider<T>;
-    get value() {
+    override readonly currentProvider: ValueProvider<T>;
+    override get value() {
         return this.currentProvider.value;
     }
 

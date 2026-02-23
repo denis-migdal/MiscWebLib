@@ -23,29 +23,33 @@ Batching and other features should be performed by its *listener*.
 RSignal<T>
 ==========
 
-It needs 2 properties:
+It needs 3 properties:
 - outdated
 - value: T|NO_VALUE
+- currentProvider: gives the signal value.
 
 Value should be NO_VALUE when no value is provided. This is necessary to avoid:
 - throwing exceptions (causes issues when using RSignal as a provider).
 - using a .hasValue flag that'd incite to provide a default value for .value.
 - using a default value (e.g. null) for .value
 
+CurrentProvider is used to optimise signals link operations.
+
 It needs 2 events:
 - outdated: the current value isn't clean anymore.
 - change: a new value is available.
+
+We provide an addListener() as a shortcut for .events.change.addListener()
 
 The outdated event must be synchronous in order to properly batch merged signals:
 1. The batcher listen the outdated event and become outdated itself.
 2. The batcher wait, e.g. a microtask.
 3. The batcher then wait all signals to be clean, before becoming clean itself.
 
+We never merge signals, we merge its event to execute an *action* when the signals are ready (e.g. refreshWith a computed provider).
+
 WSignal<T>
 ==========
-
-It needs 1 properties:
-- currentProvider: gives the signal value.
 
 It needs an dirty system (with guarded transitions):
 - needsRefresh(): announce a futur refresh, set the state as outdate.
@@ -56,6 +60,17 @@ It needs an dirty system (with guarded transitions):
 - cache should be handled by the provider.
 - lazy computation shouldn't be a signal, but a link between 2 signals, with potentially a cache.
 - complex values (e.g. dictionaries) should be managed outside of the signal.
+
+Links
+=====
+
+Enable to link a signal to another.
+
+High level API (classes):
+- new Link()
+
+Low level API (fonctions):
+- link(src, dst): {unlink: () => void}
 
 Properties
 ==========
