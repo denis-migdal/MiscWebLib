@@ -37,10 +37,16 @@ export default class Signal<T> extends RSignal<T> {
         asRW(this.events.change).trigger();
     }
 
-    static setValue<T>(s: Signal<T>, value: NoInfer<T>) {
-        s.needsRefresh();
-        s.refreshWith( constant(value) );
+    // internal interface.
+    static needsRefresh<T>(s: Signal<T>) {
+        return s.needsRefresh();
+    }
+    static refreshWith<T>(s: Signal<T>, provider: ValueProvider<NoInfer<T>>) {
+        return s.refreshWith(provider);
     }
 }
 
-export const setValue = Signal.setValue;
+export function setValue<T>(s: Signal<T>, value: NoInfer<T>) {
+    Signal.needsRefresh(s);
+    Signal.refreshWith(s, constant(value) );
+}

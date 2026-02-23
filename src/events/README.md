@@ -74,6 +74,10 @@ High level API (classes):
 Low level API (fonctions):
 - link(src, dst): {unlink: () => void}
 
+/!\ Be careful:
+- Unlink operations must set the signal value to NO_VALUE to avoid unwanted value changes.
+- If a signal is linked to many RSignals, the one responsible of the links should define the policy (fallbacks ? set NO_VALUE ?)
+
 Properties
 ==========
 
