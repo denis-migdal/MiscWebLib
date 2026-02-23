@@ -1,4 +1,4 @@
-import LockGuard from "../../guards/LockGuard";
+import LockGuard from "../../../guards/LockGuard";
 
 export default function createBatcher(scheduler: (callback: () => void) => void) {
 

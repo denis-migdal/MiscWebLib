@@ -13,22 +13,29 @@ type Unlikable<T> = {
 
 export default function link<T>(src: RSignal<T>, dst: Signal<T>): Unlikable<T> {
 
-    const outdated = () => Signal.needsRefresh(dst);
-    const change   = () => Signal.refreshWith(dst, src.currentProvider);
+    const startChange = () => Signal.startChange(dst);
+    const   endChange = () => Signal.endChange(dst, src.currentProvider);
     
-    src.events.outdated.addListener(outdated);
-    src.events.change  .addListener(change);
+    src.events.beforeChange.addListener(startChange);
+    src.events.afterChange .addListener(  endChange);
+
+    startChange();
+    if( ! dst.isChanging )
+        endChange();
 
     return {
         unlink: (...[provider]: ARG<T>) => {
-            src.events.outdated.removeListener(outdated);
-            src.events.change  .removeListener(change);
+            src.events.beforeChange.removeListener(startChange);
+            src.events.afterChange .removeListener(  endChange);
 
             if( provider === undefined)
                 provider = NO_VALUE_PROVIDER as ValueProvider<T>;
 
-            Signal.needsRefresh(dst);
-            Signal.refreshWith (dst, provider);
+            // if isChanging should have already sent a beforeChange.
+            if( ! dst.isChanging )
+                Signal.startChange(dst);
+            
+            Signal.endChange(dst, provider);
         }
     }
 }

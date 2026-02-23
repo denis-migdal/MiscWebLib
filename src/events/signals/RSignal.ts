@@ -7,17 +7,17 @@ export type ValueProvider<T> = {
 
 export default abstract class RSignal<T> {
 
-    abstract readonly outdated: boolean;
+    abstract readonly isChanging: boolean;
     abstract readonly value   : T;
     abstract readonly currentProvider: ValueProvider<T>;
 
-    readonly events = createEvents(this, "change", "outdated");
+    readonly events = createEvents(this, "beforeChange", "afterChange");
 
     addListener(listener: Listener<this>) {
-        return this.events.change.addListener(listener);
+        return this.events.afterChange.addListener(listener);
     }
     removeListener(listener: Listener<this>) {
-        return this.events.change.removeListener(listener);
+        return this.events.afterChange.removeListener(listener);
     }
 }
 

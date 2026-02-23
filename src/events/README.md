@@ -24,7 +24,7 @@ RSignal<T>
 ==========
 
 It needs 3 properties:
-- outdated
+- isChanging
 - value: T|NO_VALUE
 - currentProvider: gives the signal value.
 
@@ -36,24 +36,26 @@ Value should be NO_VALUE when no value is provided. This is necessary to avoid:
 CurrentProvider is used to optimise signals link operations. The provider should be immutable or functional. It shouldn't have its value changed without the signal being notified.
 
 It needs 2 events:
-- outdated: the current value isn't clean anymore.
-- change: a new value is available.
+- beforeChange: current value isn't clean anymore, new value will soon be provider.
+- afterChange: a new value is available.
 
 We provide an addListener() as a shortcut for .events.change.addListener()
 
-The outdated event must be synchronous in order to properly batch merged signals:
-1. The batcher listen the outdated event and become outdated itself.
+The beforeChange event must be synchronous in order to properly batch merged signals:
+1. The batcher listen the beforeChange event and set the isChanging flag.
 2. The batcher wait, e.g. a microtask.
 3. The batcher then wait all signals to be clean, before becoming clean itself.
 
-We never merge signals, we merge its event to execute an *action* when the signals are ready (e.g. refreshWith a computed provider).
+/!\ beforeChange must ALWAYS be emitted before an afterChange event (?)
+
+We never merge signals, we merge its event to execute an *action* when the signals are ready (e.g. endChange() a computed provider).
 
 WSignal<T>
 ==========
 
 It needs an *internal* refresh system (with guarded transitions):
-- needsRefresh(): announce a futur refresh, set the state as outdate.
-- refreshWith(provider: {value: XXX})
+- startChange(): announce a futur change, set the isChanging flag.
+- endChange(provider: {value: XXX})
 
 Theses methods should be protected, only to be used by links or setValue().
 

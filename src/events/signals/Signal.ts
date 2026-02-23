@@ -20,42 +20,44 @@ export default class Signal<T> extends RSignal<T> {
     }
 
     protected readonly guard = new NestedGuard();
-    get outdated() {
+    get isChanging() {
         return this.guard.isInside;
     }
 
-    protected needsRefresh() {
+    protected startChange() {
 
         if( ! this.guard.enter() )
             return;
         
-        asRW(this.events.outdated).trigger();
+        asRW(this.events.beforeChange).trigger();
     }
 
-    protected refreshWith(provider: ValueProvider<T>) {
+    protected endChange(provider: ValueProvider<T>) {
         
         if( ! this.guard.leave() )
             return;
 
         mutable(this).currentProvider = provider;
-        asRW(this.events.change).trigger();
+        asRW(this.events.afterChange).trigger();
     }
 
     // internal interface.
-    static needsRefresh<T>(s: Signal<T>) {
-        return s.needsRefresh();
+    static startChange<T>(s: Signal<T>) {
+        return s.startChange();
     }
-    static refreshWith<T>(s: Signal<T>, provider: ValueProvider<NoInfer<T>>) {
-        return s.refreshWith(provider);
+    static endChange<T>(s: Signal<T>, provider: ValueProvider<NoInfer<T>>) {
+        return s.endChange(provider);
+    }
+    static change<T>(s: Signal<T>, provider: ValueProvider<NoInfer<T>>) {
+        s.startChange();
+        return s.endChange(provider);
     }
 }
 
 export function setValue<T>(s: Signal<T>, value: NoInfer<T>) {
-    Signal.needsRefresh(s);
-    Signal.refreshWith(s, constant(value) );
+    Signal.change(s, constant(value) );
 }
 
 export function clearValue<T>(s: Signal<T|typeof NO_VALUE>) {
-    Signal.needsRefresh(s);
-    Signal.refreshWith(s, NO_VALUE_PROVIDER );
+    Signal.change(s, NO_VALUE_PROVIDER );
 }
