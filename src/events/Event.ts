@@ -5,11 +5,10 @@ const NOOP = () => {}
 export interface REvent<T> {
     addListener   (listener: Listener<T>): void;
     removeListener(listener: Listener<T>): void;
-    flush(): Promise<void>;
 }
 
 export interface WEvent<T> {
-    trigger(): Promise<void>
+    trigger(): void
 }
 
 //TODO: removeListener.
@@ -24,38 +23,18 @@ export default class Event<T> implements REvent<T>, WEvent<T> {
         this.name   = name;
     }
 
-    async flush() {
-        if( this.promise !== null)
-            await this.promise;
+    trigger() {
+
+        this.compactListeners();
+
+        for(let i = 0; i < this.listeners.length; ++i)
+            this.listeners[i](this);
     }
 
-    protected promise: null|Promise<void> = null;
-    trigger(): Promise<void> {
-
-        // protect against re-entry.
-        if( this.promise !== null)
-            return this.promise;
-
-        const {promise, resolve} = Promise.withResolvers<void>();
-        this.promise = promise;
-
-        queueMicrotask( () => {
-
-            this.compactListeners();
-
-            for(let i = 0; i < this.listeners.length; ++i)
-                this.listeners[i](this);
-            this.promise = null;
-            resolve();
-        });
-
-        return promise;
-    }
-
-    protected removalPending: boolean = false;
     addListener(listener: Listener<T>) {
         this.listeners.push(listener);
     }
+
     removeListener(listener: Listener<T>): void {
 
         const idx = this.listeners.indexOf(listener);
@@ -65,6 +44,8 @@ export default class Event<T> implements REvent<T>, WEvent<T> {
         this.listeners[idx] = NOOP;
         this.removalPending = true;
     }
+
+    protected removalPending: boolean = false;
     protected compactListeners() {
 
         if( ! this.removalPending ) // compact if necessary.
@@ -90,6 +71,27 @@ export function createEvents<T, N extends string>(target: T, ...names: N[]
         result[names[i]] = new Event(target);
 
     return result as Record<N, Event<T>>;
+}
+
+// prevents multiple calls if events are triggered at the same time.
+export function listenAll<T>(events: REvent<T>[], listener: () => void) {
+
+    // prevents re-entry
+    let pending = false;
+    const callback = () => {
+
+        if( pending )
+            return;
+
+        pending = true;
+        queueMicrotask( () => {
+            listener();
+            pending = false;
+        });
+    }
+
+    for(let i = 0; i < events.length; ++i)
+        events[i].addListener(callback);
 }
 
 import "../types/asRW"
