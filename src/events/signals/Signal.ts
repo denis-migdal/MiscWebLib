@@ -48,16 +48,20 @@ export default class Signal<T> extends RSignal<T> {
     static endChange<T>(s: Signal<T>, provider: ValueProvider<NoInfer<T>>) {
         return s.endChange(provider);
     }
-    static change<T>(s: Signal<T>, provider: ValueProvider<NoInfer<T>>) {
-        s.startChange();
-        return s.endChange(provider);
-    }
 }
 
 export function setValue<T>(s: Signal<T>, value: NoInfer<T>) {
-    Signal.change(s, constant(value) );
+    
+    if( s.isChanging ) return;
+
+    Signal.startChange(s);
+    Signal.endChange  (s, constant(value));
 }
 
 export function clearValue<T>(s: Signal<T|typeof NO_VALUE>) {
-    Signal.change(s, NO_VALUE_PROVIDER );
+    
+    if( s.isChanging ) return;
+
+    Signal.startChange(s);
+    Signal.endChange  (s, NO_VALUE_PROVIDER);
 }

@@ -3,6 +3,14 @@ import RSignal from "./RSignal";
 
 export default class PartialOverlaySignal<T extends Record<string, any>> extends RSignal<Readonly<Partial<T>>> {
 
+    readonly source: RSignal<Readonly<T>>;
+
+    constructor(src: RSignal<Readonly<T>>) {
+        super();
+
+        this.source = src;
+    }
+
     get currentProvider() {
         return this;
     }
@@ -27,12 +35,11 @@ export default class PartialOverlaySignal<T extends Record<string, any>> extends
     }
 
     get<K extends keyof T>(name: K): T[K] {
-        return this.value[name] as T[K] //TODO...
+        return this.source.value[name];
     }
 
     set<K extends keyof T>(name: K, value: T[K]) {
-
+        this.internalValue[name] = value;
+        //TODO: guard + debounce.
     }
-
-    // clear ?
 }
