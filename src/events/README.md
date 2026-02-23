@@ -1,15 +1,6 @@
 Event and signals are required as we *need* a way to notify.
 Still, we need to respect SRP and encapsulation.
 
-TODO: signals
-- en dehors listener soit
-    - flush(signal, () => {} ) / flushMany()
-    - utiliser un cache dans le listener (last known value)
-    - .value => calculer valeur potentiellement intermédiaire.
-        => mettre à jour .currentProvider qu'au dernier validate.
-- NOVALUE_PROVIDER => NO_VALUE (symbol).
-    - .value ne peut pas throw => lui-même provider possible.
-
 Event
 =====
 
@@ -56,14 +47,13 @@ WSignal<T>
 It needs 1 properties:
 - currentProvider: gives the signal value.
 
-It needs an dirty system (with re-entry):
+It needs an dirty system (with guarded transitions):
 - needsRefresh(): announce a futur refresh, set the state as outdate.
 - refreshWith(provider: {value: XXX})
 
 - re-entry synchrone INTERDITS (= boucle infinie)
 - provideValue(signal, value) function can create a trivial provider (from a pool ?). This should be external to the signal.
 - cache should be handled by the provider.
-- signal should not know what is the default value/how to reset().
 - lazy computation shouldn't be a signal, but a link between 2 signals, with potentially a cache.
 - complex values (e.g. dictionaries) should be managed outside of the signal.
 
