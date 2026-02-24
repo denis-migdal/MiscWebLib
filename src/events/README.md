@@ -33,11 +33,13 @@ Value should be NO_VALUE when no value is provided. This is necessary to avoid:
 - using a .hasValue flag that'd incite to provide a default value for .value.
 - using a default value (e.g. null) for .value
 
-CurrentProvider is used to optimise signals link operations. The provider should be immutable or functional. It shouldn't have its value changed without the signal being notified.
+CurrentProvider is used to optimise signals link operations. It shouldn't have its value changed without the signal being notified.
 
 It needs 2 events:
 - beforeChange: current value isn't clean anymore, new value will soon be provider.
 - afterChange: a new value is available.
+
+/!\ The value between beforeChange and afterChange is instable.
 
 We provide an addListener() as a shortcut for .events.change.addListener()
 
@@ -46,7 +48,7 @@ The beforeChange event must be synchronous in order to properly batch merged sig
 2. The batcher wait, e.g. a microtask.
 3. The batcher then wait all signals to be clean, before becoming clean itself.
 
-/!\ beforeChange must ALWAYS be emitted before an afterChange event (?)
+/!\ beforeChange must ALWAYS be emitted before an afterChange event.
 
 We never merge signals, we merge its event to execute an *action* when the signals are ready (e.g. endChange() a computed provider).
 

@@ -3,6 +3,9 @@ export type Listener<T> = (event: REvent<T>) => void;
 const NOOP = () => {}
 
 export interface REvent<T> {
+
+    readonly target: T;
+
     addListener   (listener: Listener<T>): void;
     removeListener(listener: Listener<T>): void;
 }
@@ -16,11 +19,8 @@ export default class Event<T> implements REvent<T>, WEvent<T> {
 
     protected listeners = new Array<Listener<T>>();
     readonly target: T;
-    readonly name  : string|null;
-
-    constructor(target: T, name: string|null = null) {
+    constructor(target: T) {
         this.target = target;
-        this.name   = name;
     }
 
     trigger() {
