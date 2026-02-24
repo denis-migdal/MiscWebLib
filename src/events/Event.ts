@@ -73,27 +73,6 @@ export function createEvents<T, N extends string>(target: T, ...names: N[]
     return result as Record<N, Event<T>>;
 }
 
-// prevents multiple calls if events are triggered at the same time.
-export function listenAll<T>(events: REvent<T>[], listener: () => void) {
-
-    // prevents re-entry
-    let pending = false;
-    const callback = () => {
-
-        if( pending )
-            return;
-
-        pending = true;
-        queueMicrotask( () => {
-            listener();
-            pending = false;
-        });
-    }
-
-    for(let i = 0; i < events.length; ++i)
-        events[i].addListener(callback);
-}
-
 import "../types/asRW"
 declare module "../types/asRW" {
     export interface TasRW {
