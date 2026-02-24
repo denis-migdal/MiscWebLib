@@ -1,28 +1,31 @@
-import { REvent } from "../Event";
 import RSignal from "../signals/RSignal";
 import Signal from "../signals/Signal";
-import {NO_VALUE} from "../signals/providers/no_value";
+import {getValue, NO_VALUE} from "../signals/providers/no_value";
+
+import Cache    from "../signals/providers/Cache";
+import computed from "../signals/providers/computed";
 
 // no batch/no debounce
 export default function mergeLink<T extends Record<string, any>,
                                   S extends RSignal<Partial<NoInfer<T>>|typeof NO_VALUE>[]>(
                                     src     : S,
                                     dst     : Signal<T>,
-                                    defaults: Partial<T> = {}
+                                    defaults: Readonly<T>
                                 ) {
 
-    const provider = {
-        // CACHE ?
-        get value() {
-            return {} as T
-        }
-    }
-    //TODO: initial value...
+    const provider = new Cache( computed( () => {
+        return Object.assign({},
+                             ...src.map( s => getValue(s, {})),
+                             defaults);
+    }));
+
+    //TODO: initial value ?
 
     const startChange = () => {
         Signal.startChange(dst);
     }
     const endChange = () => {
+        provider.invalidateCache();
         Signal.endChange(dst, provider);
     }
 

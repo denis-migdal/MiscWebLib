@@ -67,6 +67,18 @@ Theses methods should be protected, only to be used by links or setValue().
 - lazy computation shouldn't be a signal, but a link between 2 signals, with potentially a cache.
 - complex values (e.g. dictionaries) should be managed outside of the signal.
 
+Helpers
+=======
+
+
+
+- setValue(s, value): build constant() if necessary.
+- setValueProvider(s, provider)
+
+Optimizations:
+- if changing: do nothing, value is unstable, will be replaced anyway.
+- if current constant + equals or (both known + same value): do nothing.
+
 Links
 =====
 

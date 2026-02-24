@@ -1,8 +1,10 @@
 import asRW from "../../types/asRW";
 import LockGuard from "../guards/LockGuard";
-import RSignal from "./RSignal";
+import RSignal, { ValueProvider } from "./RSignal";
 
-export default class PartialOverlaySignal<T extends Record<string, any>> extends RSignal<Readonly<Partial<T>>> {
+export default class PartialOverlaySignal<T extends Record<string, any>>
+                        extends    RSignal      <Readonly<Partial<T>>>
+                        implements ValueProvider<Readonly<Partial<T>>> {
 
     readonly source: RSignal<Readonly<T>>;
 
@@ -15,6 +17,8 @@ export default class PartialOverlaySignal<T extends Record<string, any>> extends
     get currentProvider() {
         return this;
     }
+    readonly isConstant   = false;
+    readonly isValueKnown = true;
 
     protected readonly guard = new LockGuard();
     protected internalValue: Partial<Readonly<T>> = {};

@@ -50,18 +50,50 @@ export default class Signal<T> extends RSignal<T> {
     }
 }
 
+export function canReuseProvider(prev: ValueProvider<unknown>,
+                                 next: ValueProvider<unknown>) {
+
+    if( ! prev.isConstant )
+        return false;
+
+    if( prev === next )
+        return true;
+
+    if(    prev.isValueKnown
+        && next.isValueKnown
+        && prev.value === next.value )
+        return true;
+
+    return false;
+}
+
+export function setValueProvider<T>(s: Signal<T>,
+                                    provider: ValueProvider<NoInfer<T>>) {
+
+    if( s.isChanging ) return;
+
+    if( canReuseProvider(s.currentProvider, provider) )
+        return;
+
+    Signal.startChange(s);
+    Signal.endChange  (s, provider);
+}
+
+export function clearValue<T>(s: Signal<T|typeof NO_VALUE>) {
+    setValueProvider(s, NO_VALUE_PROVIDER);
+}
+
 export function setValue<T>(s: Signal<T>, value: NoInfer<T>) {
     
     if( s.isChanging ) return;
 
+    if(    s.currentProvider.isConstant
+        && s.currentProvider.isValueKnown
+        && s.currentProvider.value === value) {
+    
+        return;
+    }
+
     Signal.startChange(s);
     Signal.endChange  (s, constant(value));
-}
-
-export function clearValue<T>(s: Signal<T|typeof NO_VALUE>) {
-    
-    if( s.isChanging ) return;
-
-    Signal.startChange(s);
-    Signal.endChange  (s, NO_VALUE_PROVIDER);
 }

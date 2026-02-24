@@ -2,13 +2,16 @@ import {createEvents, Listener} from "../Event";
 
 
 export type ValueProvider<T> = {
-    readonly value: T
+    readonly isConstant  : boolean,
+    readonly isValueKnown: boolean
+    readonly value       : T,
 }
 
 export default abstract class RSignal<T> {
 
+    abstract readonly value       : T;
+
     abstract readonly isChanging: boolean;
-    abstract readonly value   : T;
     abstract readonly currentProvider: ValueProvider<T>;
 
     readonly events = createEvents(this, "beforeChange", "afterChange");
