@@ -1,7 +1,7 @@
 import { Cstr } from "../types/Cstr";
 
-import Mix  from "../mixins/mixer";
-import { Mixin, WithMixins } from "../mixins/types";
+import Mix  from "./core/mixins/mixer";
+import { Mixin, WithMixins } from "./core/mixins/types";
 
 export interface Ext<B   extends Cstr    = Cstr,
                      Acc extends Mixin[] = []

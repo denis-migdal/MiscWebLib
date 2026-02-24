@@ -1,4 +1,4 @@
-import { Cstr } from "../types/Cstr";
+import { Cstr } from "../../../types/Cstr";
 import { Mixin, MixinArgs, OnlyFirstParam, WithMixins } from "./types";
 
 type MixBuilder<B   extends Cstr,

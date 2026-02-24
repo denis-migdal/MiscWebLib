@@ -20,14 +20,14 @@ export function WithOutput<B extends Cstr, T extends Record<string, any> = {}>(b
     }
 }
 
-import {createExtension} from "../mixins/mixer";
+import {createExtension} from "./core/mixins/mixer";
 
 const Output = createExtension(WithOutput);
 export default Output;
 
 // === Register ===
 
-import { Mixin  } from "../mixins/types";
+import { Mixin  } from "./core/mixins/types";
 import { registerExtension} from "./Base";
 
 declare module "./Base" {

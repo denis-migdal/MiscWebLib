@@ -1,5 +1,5 @@
-import {Cstr}                from "../types/Cstr";
-import {UnionToIntersection} from "../types/misc";
+import {Cstr}                from "../../../types/Cstr";
+import {UnionToIntersection} from "../../../types/misc";
 
 export type Mixin<T extends Cstr  = any,
                   U extends Cstr  = any,
