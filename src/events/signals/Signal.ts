@@ -79,6 +79,10 @@ export function setValueProvider<T>(s: Signal<T>,
     Signal.endChange  (s, provider);
 }
 
+//TODO: await awaitFlush( () => T|Promise<T> )
+// -> listenOnce if isChanging
+// -> return await callback()
+
 export function clearValue<T>(s: Signal<T|typeof NO_VALUE>) {
     setValueProvider(s, NO_VALUE_PROVIDER);
 }

@@ -1,4 +1,4 @@
-type ProxyTarget<T extends Record<string, any>> = {
+export type ProxyTarget<T extends Record<string, any>> = {
     get<K extends keyof T>(name: K): T[K];
     set<K extends keyof T>(name: K, value: T[NoInfer<K>]): void;
 }
