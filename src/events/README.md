@@ -1,6 +1,13 @@
 Event and signals are required as we *need* a way to notify.
 Still, we need to respect SRP and encapsulation.
 
+TODO:
+    - FlowEvent => .flow.
+    - outputSignal.XXX.after/before/on + isPending
+        -> onChange()
+    - update[Signal].XXX.after/before/on + isPending
+        -> onUpdate()
+        -> signal<null>
 Event
 =====
 
@@ -88,6 +95,8 @@ High level API (classes):
 
 Low level API (fonctions):
 - link(src, dst): {unlink: (newProvider?: ValueProvider<T>) => void}
+
+- we need to listen to events.afterChange in order to update the destination(s) *after* the source listener execution.
 
 Properties
 ==========

@@ -4,6 +4,8 @@ import Signal  from "../signals/Signal";
 import Cache    from "../signals/providers/Cache";
 import computed from "../signals/providers/computed";
 
+import {getID, log} from "@MWL/debug";
+
 export default function fromManyLink<T, U>(
     src: RSignal<T>[],
     dst: Signal<U>,

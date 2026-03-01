@@ -1,3 +1,4 @@
+import { getID, log } from "@MWL/debug";
 import RSignal from "../signals/RSignal";
 import Signal  from "../signals/Signal";
 
@@ -17,12 +18,14 @@ export default function toManyLink<T, U>(
     const startChange = () => {
         for(let i = 0; i < dst.length; ++i)
             Signal.startChange(dst[i]);
+        getID(src) === "IN" && log(src, "START");
     }
     const endChange = () => {
         for(let i = 0; i < dst.length; ++i) {
             providers[i].invalidateCache();
             Signal.endChange(dst[i], providers[i]);
         }
+        getID(src) === "IN" && log(src, "END");
     }
 
     src.events.beforeChange.addListener( startChange );

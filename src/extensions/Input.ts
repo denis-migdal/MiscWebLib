@@ -5,6 +5,15 @@ import mergeLink from "../events/links/mergeLink";
 import PartialOverlaySignal from "../events/signals/PartialOverlaySignal";
 import createProxyClass from "../Proxy";
 
+/*
+TODO:
+- setProperty() -> input = {}
+- setOverride() -> input.XXX = Y
+
+=> with some opti (as usual...)
+*/
+
+
 export function createInputConfig<T extends Record<string, any>>(defaults: T) {
     return {
         defaults,
