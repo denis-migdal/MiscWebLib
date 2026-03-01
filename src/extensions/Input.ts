@@ -118,3 +118,4 @@ class X extends WithInput(Object, {faa: "43"}) {
 const y = new X();
 y.input.faa;
 y.input.foo;
+*/
