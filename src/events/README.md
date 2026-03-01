@@ -35,13 +35,12 @@ Value should be NO_VALUE when no value is provided. This is necessary to avoid:
 
 CurrentProvider is used to optimise signals link operations. It shouldn't have its value changed without the signal being notified.
 
-It needs 2 events:
+It needs 3 events:
 - beforeChange: current value isn't clean anymore, new value will soon be provider.
+- change: internal, used for signal.add/removeListener().
 - afterChange: a new value is available.
 
 /!\ The value between beforeChange and afterChange is instable.
-
-We provide an addListener() as a shortcut for .events.change.addListener()
 
 The beforeChange event must be synchronous in order to properly batch merged signals:
 1. The batcher listen the beforeChange event and set the isChanging flag.

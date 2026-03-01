@@ -28,7 +28,7 @@ export default class Signal<T> extends RSignal<T> {
 
         if( ! this.guard.enter() )
             return;
-        
+
         asRW(this.events.beforeChange).trigger();
     }
 
@@ -38,6 +38,8 @@ export default class Signal<T> extends RSignal<T> {
             return;
 
         mutable(this).currentProvider = provider;
+
+        asRW(this.changeEvent).trigger();
         asRW(this.events.afterChange).trigger();
     }
 
