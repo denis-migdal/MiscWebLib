@@ -82,6 +82,7 @@ declare module "./Base" {
 }
 registerExtension(Input);
 
+/*
 class Z extends WithInput(Object, {faa: "43", foo: 34}) {
     foo() {
         this.parsedInput.value.faa  // ok
