@@ -119,6 +119,11 @@ Low level API (fonctions):
 
 - unlink/unsync => detach ?
 
+
+Bug sync:
+- when still pending after receiving a value => need to trigger dirty...
+- if output from trigger = value provider from sync => reentry.
+
 I/O
 ===
 

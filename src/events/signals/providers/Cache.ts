@@ -34,4 +34,8 @@ export default class Cache<T> implements ValueProvider<T> {
     get isValueKnown() {
         return this.source.isValueKnown
     }
+
+    get inCache() {
+        return ! this.guard.isInside;
+    }
 }
