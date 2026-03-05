@@ -2,12 +2,23 @@ Event and signals are required as we *need* a way to notify.
 Still, we need to respect SRP and encapsulation.
 
 TODO:
-    - FlowEvent => .flow.
-    - outputSignal.XXX.after/before/on + isPending
-        -> onChange()
-    - update[Signal].XXX.after/before/on + isPending
-        -> onUpdate()
-        -> signal<null>
+0/ Finish TPEngine
+1/ Move to Signal library... + update LISS...
+2/ FlowEvent => .flow. // -> interface internalSignal ?
+    .isPending
+    .startFlow() // -> interface InternalFlow ?
+    .endFlow()
+    .before/.on/.after
+3/ Définir les interfaces "core" et séparer les helpers + impl.
+4/ WithInput => avoir un InputManager ?
+    + WithInput/WithOutput => attention au type...
+5/ Move stuff...
+
+X/ Update = Signal<null>() ?
+X/ Découpler UI et données/calculs lorsque possible (printer/configurator ?)
+X/ En cas de changements : adapter ou v1/v2 avec migration progressive...
+    + WithInput/WithOutput : option facultative pour l'impl du signal.
+
 Event
 =====
 
@@ -88,6 +99,14 @@ Optimizations:
 Links
 =====
 
+- links : src => dst
+- sync  : src <=> dst
+    - sync: count => 0 propagate dirty / 2 propage value
+        => except orig.
+    - syncEditor
+    - syncAdapter (?).
+- adapter/view: not relevant for now ?
+
 Enable to link a signal to another.
 
 High level API (classes):
@@ -97,6 +116,26 @@ Low level API (fonctions):
 - link(src, dst): {unlink: (newProvider?: ValueProvider<T>) => void}
 
 - we need to listen to events.afterChange in order to update the destination(s) *after* the source listener execution.
+
+- unlink/unsync => detach ?
+
+I/O
+===
+
+- Input = printer
+- Output = generator
+- Input+Output = Transformer (different type/value) or Editor (same type/value).
+
+In order to avoid infinite loops in Editors:
+- if value comes from input: inputParsed.currentProvider = outputSignal.currentProvider
+    - link inputParsed and outputSignal *after* other links (so that it will be the final override).
+    - no async
+
+- for subclassing issues, either:
+    - make it final
+    - use setValue/setProvider ?
+    - have an Internal structure
+    - have an intermediate signal ?
 
 Properties
 ==========
