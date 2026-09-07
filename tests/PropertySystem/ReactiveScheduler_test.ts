@@ -3,7 +3,7 @@ import "@config";
 import { assertEquals } from "std/assert";
 import { ReactiveObject } from "MWL@2026/core/Reactive/PropertySystem/ReactiveObject/ReactiveObject.ts";
 import { pauseReactions, resumeReactions, triggerReactiveObject } from "MWL@2026/core/Reactive/PropertySystem/ReactiveObject/ReactiveScheduler.ts";
-import { listen } from "MWL@2026/core/Reactive/Observers/observe.ts";
+import { listen } from "MWL@2026/exports/Reactive/Observable.ts";
 import { addLink } from "MWL@2026/core/Reactive/PropertySystem/Property/sync/links.ts";
 
 Deno.test("Pause (noop)", () => {

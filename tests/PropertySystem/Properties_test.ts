@@ -4,9 +4,8 @@ import { assertEquals } from "std/assert";
 import {Properties} from "MWL@2026/core/Reactive/PropertySystem/Properties/Properties.ts";
 
 import {updateProperties} from "MWL@2026/core/Reactive/PropertySystem/Properties/PropertiesProvider.ts";
-import {WithProperties} from "MWL@2026/core/Reactive/PropertySystem/Properties/WithProperties.ts";
 
-import { listen } from "MWL@2026/core/Reactive/Observers/observe.ts";
+import { listen } from "MWL@2026/exports/Reactive/Observable.ts";
 import { Value } from "MWL@2026/core/Reactive/PropertySystem/Controllers/Value.ts";
 import { View } from "MWL@2026/core/Reactive/PropertySystem/Controllers/View.ts";
 import { Constant } from "MWL@2026/core/Reactive/PropertySystem/Controllers/Constant.ts";
