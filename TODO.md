@@ -34,6 +34,11 @@
     - cache value
     - forward without dst.
   - Properties (et autres)
+    => Property NOT Observable
+    => ReactiveNode: effects: [] () => void [many possible].
+      => NULL_ARRAY by default.
+    => Properties NOT ReactiveObject
+      => possède un ReactiveNode
     -> use interfaces (revoir structure)
     -> Propagation
       -> frontière unique, opaque, et imperméable.

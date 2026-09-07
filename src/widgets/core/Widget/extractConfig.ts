@@ -1,7 +1,7 @@
 import { NULL_OBJ } from "MWL@2026/core/types";
 
-const CFG_ATTR_NAME = "w-cfg";
-const CFG_ATTR_PREFIX = "cfg-";
+// short and can't be used in CSS (so no risks of collisions).
+const CFG_ATTR_PREFIX = "@";
 
 export function extractConfig<D extends Record<string,any>>(
                                                 target: HTMLElement,
@@ -13,13 +13,11 @@ export function extractConfig<D extends Record<string,any>>(
 
     let props: Partial<D> = {};
 
-    const cfgAttr = target.getAttribute(CFG_ATTR_NAME);
-    if( cfgAttr !== null)
-        props = JSON.parse( cfgAttr );
-
     const attrs = [...target.attributes];
 
     for(let i = 0; i < attrs.length; ++i) {
+
+        console.warn(attrs[i].name);
 
         if( ! attrs[i].name.startsWith(CFG_ATTR_PREFIX) )
             continue;
