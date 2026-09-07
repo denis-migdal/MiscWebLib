@@ -1,14 +1,14 @@
-import { SubscribableObservable } from "../../contract";
+import { Observable } from "../../contract";
 import { OBSERVABLE } from "../../contract/internals";
 
 export class ObservableProxy<
                                 This extends object|void = void,
                                 Args extends any[] = []
-                            > implements SubscribableObservable<This, Args> {
+                            > implements Observable<This, Args> {
 
-    readonly [OBSERVABLE]: SubscribableObservable<This, Args>[OBSERVABLE];
+    readonly [OBSERVABLE]: Observable<This, Args>[OBSERVABLE];
 
-    constructor(target: SubscribableObservable<This, Args>) {
+    constructor(target: Observable<This, Args>) {
         this[OBSERVABLE] = target[OBSERVABLE];
     }
 }
