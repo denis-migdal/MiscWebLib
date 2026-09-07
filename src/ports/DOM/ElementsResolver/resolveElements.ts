@@ -1,4 +1,4 @@
-import { Elements } from "./core/types";
+import { Elements, ExtractionTarget } from "./core/types";
 
 // throws if error.
 export type Resolver<E extends HTMLElement>  = (element: HTMLElement) => E;
@@ -7,31 +7,23 @@ export type Resolvers<E extends Elements> = {
 }
 
 export function resolveElements<E extends Elements>(
-            elements : Elements,
+            target   : ExtractionTarget,
             resolvers: Resolvers<E>,
         ): E {
 
     const results = {} as E;
 
-    for(const name in elements) {
+    for(const name in resolvers) {
 
-        const target  = elements[name];
-        const resolver = resolvers[name];
+        const element  = target.getElementById(name);
+        __ASSERT__(element !== null, `Element #${name} not found.`);
 
-        __ASSERT__(resolver !== undefined, `Unknown element: ${name}`);
+        const resolved = resolvers[name](element)!;
 
-        const element = resolver(target)!;
+        if( resolved !== element)
+            element.replaceWith(resolved);
 
-        if( element !== target)
-            target.replaceWith(element);
-
-        results[name as keyof E] = element;
-    }
-
-    if( __DEBUG__ ) {
-        for(let name in resolvers)
-            if( ! (name in results) )
-                throw new Error(`Element missing: ${name}`);
+        results[name] = resolved;
     }
 
     return results;

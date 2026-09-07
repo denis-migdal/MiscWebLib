@@ -2,7 +2,6 @@ import { Cstr, isClass } from "MWL@2026/core/types";
 import { FCT_NULL_OBJ } from "MWL@2026/core/types/NullObjects";
 
 import { Elements, ExtractionTarget } from "./core/types";
-import {getElements} from "./getElements";
 import {resolveElements, Resolver, Resolvers } from "./resolveElements";
 import {classResolver} from "./resolvers/classResolver";
 import {instanceResolver} from "./resolvers/instanceResolver";
@@ -38,9 +37,7 @@ export class ElementsResolver<E extends Elements> {
     }
 
     resolve(target: ExtractionTarget) {
-        const elems = getElements(target);
-
-        return resolveElements(elems, this.resolvers);
+        return resolveElements(target, this.resolvers);
     }
 }
 

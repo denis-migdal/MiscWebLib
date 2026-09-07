@@ -17,8 +17,6 @@ export function extractConfig<D extends Record<string,any>>(
 
     for(let i = 0; i < attrs.length; ++i) {
 
-        console.warn(attrs[i].name);
-
         if( ! attrs[i].name.startsWith(CFG_ATTR_PREFIX) )
             continue;
 

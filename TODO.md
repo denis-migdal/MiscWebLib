@@ -1,5 +1,3 @@
-- w-id => id
-- cfg-attr => attr
 - widget.api => widget.subject
   -> resolver => subjectOf(WidgetType).
     => resolve(selector, SubjectOf(GraphWidget) ) => retourne Graph
@@ -11,8 +9,6 @@
     => resolveElement(elem, X).
     => pas utiliser selector.
 
-- move internals (from ChartJS) + use setInternals() / getInternals()
-  - notamment pour node (?).
 - version => responsabilité du listener.
   -> qui l'utilise réellement ?
   -> several effect types (propertiesEffect) :
