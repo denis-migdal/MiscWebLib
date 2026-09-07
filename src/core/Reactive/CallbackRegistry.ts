@@ -20,7 +20,6 @@ export class CallbackRegistry<
     private readonly clearAfterTrigger: boolean;
 
     private readonly triggerContext;
-
     readonly target: T;
 
     // avoid conditions when trying to get the main Event...
@@ -40,7 +39,21 @@ export class CallbackRegistry<
         };
     }
 
+    // aliases for Event.
+    hasListener() {
+        return this.callbacks.length !== 0;
+    }
+    
+    addListener(callback: Callback<T>) {
+        return this.add(callback);
+    }
+    removeListener(callback: Callback<T>) {
+        return this.remove(callback);
+    }
+    //
+
     // re-entry is forbidden, therefore we can reuse the trigger context.
+    //TODO: make RO prop.
     getTriggerContext() {
         return this.triggerContext;
     }
@@ -73,6 +86,8 @@ export class CallbackRegistry<
         this.callbacks.push(callback);
     }
 
+    private removalPending = false;
+
     remove(callback: Callback<T>): void {
 
         const idx = this.callbacks.indexOf(callback);
@@ -82,20 +97,6 @@ export class CallbackRegistry<
         this.callbacks[idx] = NULL_OP;
         this.removalPending = true;
     }
-
-    hasListener() {
-        return this.callbacks.length !== 0;
-    }
-
-    // aliases for Event.
-    addListener(callback: Callback<T>) {
-        return this.add(callback);
-    }
-    removeListener(callback: Callback<T>) {
-        return this.remove(callback);
-    }
-
-    private removalPending = false;
 
     // do NOT call it during a trigger.
     clear() {

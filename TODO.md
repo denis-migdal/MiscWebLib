@@ -1,13 +1,45 @@
-- revoir reactive
-  - link() vs forward() vs sync()
-  - cache value
-  - forward without dst.
+- w-id => id
+- cfg-attr => attr
+- widget.api => widget.subject
+  -> resolver => subjectOf(WidgetType).
+    => resolve(selector, SubjectOf(GraphWidget) ) => retourne Graph
+    -> symbol spécial.
+    -> + documenter (internal).
+    resolve(element, xxx);
+  => resolve([target], {id: X} OR id, X)
+    => findElement.
+    => resolveElement(elem, X).
+    => pas utiliser selector.
 
-- doc
+- move internals (from ChartJS) + use setInternals() / getInternals()
+  - notamment pour node (?).
+- version => responsabilité du listener.
+  -> qui l'utilise réellement ?
+  -> several effect types (propertiesEffect) :
+      -> value
+      -> version
+      -> always.
+
+- debug tools (enable/disable __LOG__(id, msg)? + __START_LOG_SESSION__ / __END_LOG_SESSION__ + __LOG_FILTER_SOMEHOW__ ).
+
 - set as default branch.
-- debug tools
-- ensure no export defaults / no import core.
 
+- doc + revoir interfaces/contrats
+  - controller (behavior) - property (glue) - node (propagation).
+  - Coordinator
+    - accept InternalModel as input (besoin de détecter par le coordinator).
+      => instanceOf (?) -> .properties si on veut résoudre l'ambiguité.
+  - revoir reactive
+    - link() vs forward() vs sync()
+    - cache value
+    - forward without dst.
+  - Properties (et autres)
+    -> use interfaces (revoir structure)
+    -> Propagation
+      -> frontière unique, opaque, et imperméable.
+      -> sync => utilise des primitives de base.
+
+- ensure no export defaults / no import core/ ../impl.
 - regarder anciens dépôts.
 
 =====

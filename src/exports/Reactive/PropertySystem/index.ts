@@ -3,6 +3,10 @@ export {WithProperties} from "MWL@2026/core/Reactive/PropertySystem/Properties/W
 export {updateProperties} from "MWL@2026/core/Reactive/PropertySystem/Properties/PropertiesProvider";
 export {bindProperties} from "MWL@2026/core/Reactive/PropertySystem/Properties/sync";
 
+export {PropertiesEffects} from "MWL@2026/core/Reactive/PropertySystem/Properties/PropertiesEffects";
+
+export {type PropertiesDescriptors} from "MWL@2026/core/Reactive/PropertySystem/Properties/PropertiesImpl";
+
 /*
 export {createPropertiesFactory} from "MWL@2026/core/Reactive/Properties/Properties/createProperties";
 /*

@@ -54,6 +54,8 @@ export class PropertiesEffects<T extends Record<string, any>> {
 
         if( effectTriggered )
             this.afterEffectsCallback();
+
+        return effectTriggered;
     }
 
     add(cond: Extract<keyof T, string>[]
