@@ -1,4 +1,4 @@
-import { hasListeners, triggerEvent } from "MWL@2026/core/Reactive/Observable";
+import { canSkipTrigger, trigger } from "MWL@2026/exports/Reactive/Observable";
 import { REACTIVE_NODE, ReactiveObject } from "./ReactiveObject";
 import { Link } from "./link";
 import { incrVersion, ReactiveNode } from "./ReactiveNode";
@@ -104,7 +104,7 @@ export class ReactiveScheduler {
     }
 
     protected scheduleNotify(target: ReactiveObject) {
-        if( ! hasListeners(target) )
+        if( canSkipTrigger(target) )
             return;
         this.pendingNotifications.push(target);
     }
@@ -113,7 +113,7 @@ export class ReactiveScheduler {
 
         // re-entry is forbidden.
         for(let i = 0; i < this.pendingNotifications.length; ++i)
-            triggerEvent(this.pendingNotifications[i]);
+            trigger(this.pendingNotifications[i]);
 
         this.pendingNotifications.length = 0;
     }

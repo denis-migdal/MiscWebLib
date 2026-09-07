@@ -7,7 +7,7 @@ export class ReactiveObject extends ObservableObject {
     readonly [REACTIVE_NODE] = new ReactiveNode();
 }
 
-export class ReactiveProxy<T extends object|null> extends ObservableProxy<T> {
+export class ReactiveProxy<T extends object|void> extends ObservableProxy<T> {
     readonly [REACTIVE_NODE]: ReactiveNode;
     constructor(target: ReactiveProxy<T>) {
         super(target);

@@ -29,6 +29,9 @@ export function WithProperties<PD extends PropertiesDescriptors<any>>(
         constructor(initialValues: Partial<PropertiesType<PD>> = {}) {
             // @ts-expect-error
             const properties  = Properties(initialValues);
+            // @ts-expect-error :
+            // extends ReactiveProxy<...> is likely wrong.
+            // else, might require to make Observable's invoker = unknown.
             super(properties);
 
             // @ts-expect-error

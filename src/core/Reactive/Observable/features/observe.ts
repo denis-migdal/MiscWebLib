@@ -21,6 +21,16 @@ export function observe<
     ctrler(target).call(callback);
 }
 
+export function isListening<
+                            This extends object|void     = void,
+                            Args extends any[]           = []
+                        >(
+                        target  : SubscribableObservable<This, Args>,
+                        callback: NoInfer<Callback<This, Args>>
+                    ) {
+    return ctrler(target).has(callback);
+}
+
 export function unlisten<
                             This extends object|void     = void,
                             Args extends any[]           = []

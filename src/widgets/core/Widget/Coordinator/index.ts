@@ -1,4 +1,4 @@
-import { MAIN_EVENT } from "MWL@2026/core/Reactive/Observable/MAIN_EVENT";
+import { OBSERVABLE } from "MWL@2026/core/Reactive/Observable/contract/internals";
 import { isClass } from "MWL@2026/core/types";
 import { FCT_ID, NULL_OBJ } from "MWL@2026/exports/types";
 
@@ -29,7 +29,8 @@ export type CoordinatorOpts<
     widgetAPI       ?: (presentation: NoInfer<T>) => WidgetAPI
 };
 
-export type CoordinatorDAPI<T> = Extract<keyof T, "properties"|typeof MAIN_EVENT>;
+// TODO: Will be remove
+export type CoordinatorDAPI<T> = Extract<keyof T, "properties"|typeof OBSERVABLE>;
 
 export class NullCoordinator {
 
@@ -78,9 +79,10 @@ export function Coordinator<
         get viewModel() { return viewModel(this.presentationModel) }
         get widgetAPI() { return widgetAPI(this.presentationModel) }
 
+        //TODO: will be removed.
         // always redirect.
         static readonly directAPI = [
-            MAIN_EVENT,
+            OBSERVABLE,
             "properties"
         ] as any as readonly never[]; // h4ck
     }

@@ -1,5 +1,5 @@
-import {CallbackRegistry} from "MWL@2026/core/Reactive/CallbackRegistry";
 import GuardedState from "./GuardedState";
+import { createOwnedHook, isListening, listen, triggerDrain, unlisten } from "MWL@2026/exports/Reactive/Observable";
 
 type FrameTask = () => void;
 
@@ -25,23 +25,23 @@ class FrameSchedulerCore {
 
 export class FrameScheduler {
 
-    private readonly tasks = new CallbackRegistry( this, true );
+    private readonly executionHook = createOwnedHook(this);
 
     private readonly core  = new FrameSchedulerCore( () => {
-        this.tasks.trigger();
+        triggerDrain(this.executionHook)
     });
 
     isTaskScheduled( task: FrameTask ) {
-        return this.tasks.has(task);
+        return isListening(this.executionHook, task);
     }
 
     scheduleTask( task: FrameTask ) {
-        this.tasks.add(task);
+        listen(this.executionHook, task);
         this.core.schedule();
     }
 
     cancelScheduledTask(task: FrameTask) {
-        this.tasks.remove(task);
+        unlisten(this.executionHook, task);
     }
 }
 

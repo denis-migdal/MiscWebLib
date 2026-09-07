@@ -1,5 +1,8 @@
-export {MAIN_EVENT} from "./MAIN_EVENT";
+export * from "./features/observe";
+export * from "./features/trigger";
 
-export * from "./Event";
-export * from "./Observable";
-export * from "./observe";
+export * from "./features/factories/ObservableObject";
+export * from "./features/factories/ObservableProxy";
+export * from "./features/factories/Hook";
+
+export {Observable} from "./contract/impl";

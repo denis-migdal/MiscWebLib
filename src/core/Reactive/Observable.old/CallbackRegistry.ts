@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { NULL_OP } from "MWL@2026/core/types";
 import { Observable } from "./Observable";
 import { MAIN_EVENT } from "./Observable/MAIN_EVENT";

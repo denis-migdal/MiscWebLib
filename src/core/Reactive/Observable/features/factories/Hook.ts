@@ -26,6 +26,27 @@ export function createHook<
     return hook;
 }
 
+export function createOwnedHook<
+                    Owner extends object,
+                    Args extends any[] = []
+                >(owner: Owner): Hook<{owner: Owner}, Args>
+export function createOwnedHook<
+                    Owner extends object,
+                    Meta extends Record<string, any> = {},
+                    Args extends any[]               = []
+                >(owner: Owner, metadata: Meta): Hook<Meta & {owner: Owner}, Args>
+export function createOwnedHook<
+                    Owner extends object,
+                    Meta extends Record<string, any> = {},
+                    Args extends any[]               = []
+                >(owner: Owner, metadata = {} as Meta): Hook<Meta & {owner: Owner}, Args> {
+    
+    return createHook({
+        owner,
+        ...metadata,
+    });
+}
+
 /////
 // HookFactory
 /////

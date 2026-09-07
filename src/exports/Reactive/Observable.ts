@@ -1,6 +1,6 @@
 export {
-    createEvent, type Event,
-    ObservableObject, ObservableMixin, ObservableProxy, type Observable,
-    trigger,
-    listen, observe, unobserve
+    ObservableObject, ObservableProxy, type Observable,
+    canSkipTrigger, trigger, triggerDrain, clear,
+    listen, observe, isListening, unlisten, unobserve,
+    createOwnedHook,
 } from "MWL@2026/core/Reactive/Observable";

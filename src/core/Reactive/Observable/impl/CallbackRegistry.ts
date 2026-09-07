@@ -15,19 +15,17 @@ export class CallbackRegistry<
 
     readonly [OBSERVABLE] = this;
 
-    private readonly clearAfterTrigger: boolean;
     private readonly triggerContext   : TriggerContext;
     private readonly callbacks = new Array<Callback<TriggerContext, TriggerArgs>>();
 
     constructor(
-                    ...args: [TriggerContext]|[TriggerContext, boolean]|(
+                    ...args: [TriggerContext]|(
                                     TriggerContext extends void
                                         ? []
                                         : never
                                     )
                 ) {
         this.triggerContext    = args[0]!;
-        this.clearAfterTrigger = args[1] ?? false;
     }
 
     canSkipTrigger() {
@@ -42,18 +40,11 @@ export class CallbackRegistry<
     trigger(...args: TriggerArgs) {
 
         // need to compact to avoid growing callback list.
-        if( ! this.clearAfterTrigger )
-            this.compactCallbacks();
-
-        if( this.callbacks.length === 0) // opti.
-            return;
+        this.compactCallbacks();
 
         // we could bind...
         for(let i = 0; i < this.callbacks.length; ++i)
             this.callbacks[i].apply(this.triggerContext, args);
-
-        if( this.clearAfterTrigger )
-            this.clear();
     }
 
     has(callback: Callback<TriggerContext, TriggerArgs>) {

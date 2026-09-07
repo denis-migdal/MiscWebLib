@@ -22,7 +22,7 @@ export type TriggerableObservable<
 
         canSkipTrigger(): boolean;
     }>
-type ClearableObservable = ObservableWithCapacities<{
+export type ClearableObservable = ObservableWithCapacities<{
         clear(): void;
     }>
 
