@@ -3,6 +3,7 @@
 }
 
 :root {
+    /* use Arial (substituted by Arimo on Linux), else use another sans-serif font as fallback. */
     font-family: Arial, sans-serif;
 }
 

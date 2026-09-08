@@ -89,6 +89,8 @@ Subdirectories:
 - core
 - tools
 
++> contract / impl / services.
+
 =====
 
 - importer utils des autres dépôts
