@@ -40,6 +40,46 @@ export class NullCoordinator {
     static readonly directAPI = [];
 }
 
+export function LazyCoordinator<
+                            Config extends Record<string, any>,
+                            T extends object
+                        >(modelProvider: ModelProvider<Config, T>) {
+
+    let modelFactory = modelProvider as (cfg: Partial<Config>) => T;
+    if( isClass(modelProvider) )
+        modelFactory = (...args) => new modelProvider(...args);
+
+    return class LazyCoordinator {
+
+        presentationModel: T|null = null;
+        readonly config: Partial<Config>;
+
+        constructor(config: Partial<Config> = NULL_OBJ) {
+            this.config = config;
+        }
+
+        get viewModel() {
+            // we could precise it further for more security.
+            // e.g. give a callback in the constructor ?
+            return (config: Partial<Config> = NULL_OBJ) => {
+                config = Object.assign({}, config, this.config);
+                this.presentationModel = modelFactory(config)
+            }
+        }
+        get widgetAPI() {
+            __ASSERT__(this.presentationModel !== null, "viewModel MUST be called!");
+            return this.presentationModel
+        }
+
+        //TODO: will be removed.
+        // always redirect.
+        static readonly directAPI = [
+            OBSERVABLE,
+            "properties"
+        ] as any as readonly never[]; // h4ck
+    }
+}
+
 // explicit return type annotation required.
 export function Coordinator<
                         Config extends Record<string, any>,
