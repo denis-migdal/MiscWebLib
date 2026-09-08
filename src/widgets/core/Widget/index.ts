@@ -54,7 +54,11 @@ export function defineWidget<
     if( args.length >= 3)
         coordinatorClass = args[1] as any;
 
+    const ClassName = name.replace(/(?:^|-)([a-z])/g, (_, char) => char.toUpperCase()) + "Widget";
+
     class Widget extends HTMLElement {
+
+        static override readonly name = ClassName;
 
         readonly api;
         readonly renderer = new TaskList();
