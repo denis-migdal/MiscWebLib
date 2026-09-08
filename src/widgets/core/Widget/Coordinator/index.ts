@@ -52,20 +52,17 @@ export function LazyCoordinator<
     return class LazyCoordinator {
 
         presentationModel: T|null = null;
-        readonly config: Partial<Config>;
+
+        readonly viewModel: (args: Partial<Config>) => T;
 
         constructor(config: Partial<Config> = NULL_OBJ) {
-            this.config = config;
+
+            this.viewModel = (args: Partial<Config>) => {
+                args = Object.assign({}, args, config);
+                return this.presentationModel = modelFactory(args);
+            };
         }
 
-        get viewModel() {
-            // we could precise it further for more security.
-            // e.g. give a callback in the constructor ?
-            return (config: Partial<Config> = NULL_OBJ) => {
-                config = Object.assign({}, config, this.config);
-                this.presentationModel = modelFactory(config)
-            }
-        }
         get widgetAPI() {
             __ASSERT__(this.presentationModel !== null, "viewModel MUST be called!");
             return this.presentationModel
