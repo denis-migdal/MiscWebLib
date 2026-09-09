@@ -2,7 +2,7 @@
 	font-family: 'Symbols';
     font-style: normal italic;
     font-weight: normal bold;
-    
+
 	src: local("Noto Color Emoji"),
 	     url("/assets/font/NotoColorEmoji.woff2") format('woff2');
     /*
@@ -12,5 +12,5 @@
 }
 
 :root {
-    font-family: Arial, Symbols;
+    font-family: Symbols, Arial;
 }
