@@ -1,4 +1,5 @@
 build/TS
+build/fonts/generated/
 node_modules/
 package-lock.json
 dist/
